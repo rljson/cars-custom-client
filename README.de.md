@@ -19,10 +19,13 @@ Client-Website der Seite custom der cars-Beispiel-App, wo freigegebene Kataloge 
 - Die Seite custom der cars-Beispiel-App hat eine eigene Client-Website,
   wo freigegebene Kataloge für Kunden weiterbearbeitet werden
 - Eine statische Seite, ausgeliefert von nginx; sie zeigt ihre eigene
-  Hello-Zeile und die Zeilen, die der Master ihrer Seite auf `/api/hello`
-  antwortet; nginx leitet dorthin an `MASTER_URL` weiter
-- `GET /health` antwortet `ok`; sie läuft als Container App
-  `ca-cars-custom-client-<stage>` in den Stufen `dev`, `test` und `prod`
+  Hello-Zeile und die Zeilen, die der Master ihrer Seite auf `api/hello`
+  antwortet; nginx leitet dorthin an `MASTER_URL` weiter. Die URL ist
+  relativ zur Seite, daher läuft die Seite unter jedem Pfad, etwa hinter
+  einem Proxy, der sie unter `/custom-client/` ausliefert und dieses
+  Präfix entfernt
+- `GET /health` antwortet `ok`; sie läuft als Container in den Stufen
+  `dev`, `test` und `prod`
 
 ## Installation
 
@@ -47,10 +50,10 @@ Die Seite zeigt `Hello from cars-custom-client` und die Zeilen des Masters.
 
 ### Container
 
-Das Image in der Registry der Stufe `dev` bauen:
+Das Image in der Registry `crcars` bauen, getaggt mit der Version:
 
 ```bash
-az acr build --registry crcarsdev --image cars-custom-client:<version>-<sha> .
+az acr build --registry crcars --image cars-custom-client:<version> .
 ```
 
 ## Grenzen

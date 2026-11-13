@@ -19,10 +19,12 @@ Client website of the custom side of the cars example app, where released catalo
 - The custom side of the cars example app has its own client website,
   where released catalogs are edited further for customers
 - A static page served by nginx; it shows its own hello line and the
-  lines the master of its side answers on `/api/hello`, which nginx
-  forwards to `MASTER_URL`
-- `GET /health` answers `ok`; it runs as the container app
-  `ca-cars-custom-client-<stage>` in the stages `dev`, `test` and `prod`
+  lines the master of its side answers on `api/hello`, which nginx
+  forwards to `MASTER_URL`. The URL is relative to the page, so the page
+  works under any path, e.g. behind a proxy that serves it at
+  `/custom-client/` and strips that prefix
+- `GET /health` answers `ok`; it runs as a container in the stages
+  `dev`, `test` and `prod`
 
 ## Installation
 
@@ -47,10 +49,10 @@ The page shows `Hello from cars-custom-client` and the lines of the master.
 
 ### Container
 
-Build the image in the registry of the stage `dev`:
+Build the image in the registry `crcars`, tagged with the version:
 
 ```bash
-az acr build --registry crcarsdev --image cars-custom-client:<version>-<sha> .
+az acr build --registry crcars --image cars-custom-client:<version> .
 ```
 
 ## Limitations
